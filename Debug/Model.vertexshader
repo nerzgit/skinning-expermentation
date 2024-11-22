@@ -1,0 +1,22 @@
+#version 330 core
+
+layout(location = 0) in vec3 vertexPosition_modelspace;
+layout(location = 2) in float upperArm_weight;
+layout(location = 3) in float lowerArm_weight;
+
+uniform mat4 MVP;
+uniform mat4 BoneMatrix[24];
+
+mat4 upperArm_Matrix;
+mat4 lowerArm_Matrix;
+mat4 weighted_Matrix;
+
+void main(){
+
+	upperArm_Matrix = BoneMatrix[0] * upperArm_weight;
+	lowerArm_Matrix = BoneMatrix[1] * lowerArm_weight;
+	weighted_Matrix = upperArm_Matrix + lowerArm_Matrix;
+	gl_Position =  MVP * weighted_Matrix * vec4(vertexPosition_modelspace,1);
+
+}
+
